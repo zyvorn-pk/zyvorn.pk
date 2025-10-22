@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Outfit } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
-const roboto = Roboto({
+const outfit = Outfit({
 	weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 	subsets: ["latin"]
 });
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
 	return (
 		<html lang="en" data-scroll-behavior="smooth">
-			<body className="scroll-smooth antialiased" style={roboto.style}>
+			<body className="scroll-smooth antialiased" style={outfit.style}>
 				{children}
 				<Toaster />
 			</body>
