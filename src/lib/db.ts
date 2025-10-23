@@ -1,10 +1,8 @@
-import { withAccelerate } from "@prisma/extension-accelerate";
-
 import { PrismaClient } from "@/lib/prisma";
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-const prisma = globalForPrisma.prisma || new PrismaClient({ log: ["query"] }).$extends(withAccelerate());
+const prisma = globalForPrisma.prisma || new PrismaClient({ log: ["query"] });
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 

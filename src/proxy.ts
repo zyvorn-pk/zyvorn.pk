@@ -9,10 +9,13 @@ export async function proxy(request: NextRequest) {
 		return NextResponse.redirect(new URL("/login", request.url));
 	}
 
+	if (session.user.role !== "admin" && request.nextUrl.pathname.startsWith("/dashboard")) {
+		return NextResponse.redirect(new URL("/login", request.url));
+	}
+
 	return NextResponse.next();
 }
 
 export const config = {
-	runtime: "nodejs",
-	matcher: ["/"]
+	matcher: ["/dashboard/:path*", "/account/:path*"]
 };
