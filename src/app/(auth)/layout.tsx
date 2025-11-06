@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { getServerSession } from "@/lib/get-session";
+import { getServerSession } from "@/lib/auth/get-session";
 
 export default async function AuthLayout({ children }: LayoutProps<"/">) {
 	const session = await getServerSession();
