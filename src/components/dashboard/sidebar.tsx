@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { HomeIcon, SettingsIcon, ShoppingBagIcon, ShoppingCartIcon, TagIcon, UserIcon } from "lucide-react";
 
-import { type User } from "@/lib/auth";
+import { useSession } from "@/lib/auth/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	Sidebar,
@@ -20,9 +20,11 @@ import {
 	useSidebar
 } from "@/components/ui/sidebar";
 
-export function DashboardSidebar({ user }: { user: User }) {
+export function DashboardSidebar() {
 	const pathname = usePathname();
 	const { setOpenMobile } = useSidebar();
+
+	const { data } = useSession();
 
 	const sidebarItems = [
 		{
@@ -79,17 +81,17 @@ export function DashboardSidebar({ user }: { user: User }) {
 				))}
 			</SidebarContent>
 			<SidebarFooter>
-				{user && (
+				{data?.user && (
 					<SidebarMenu>
 						<SidebarMenuItem>
 							<SidebarMenuButton size="lg">
 								<Avatar className="size-8">
-									<AvatarImage src={user.image ?? undefined} alt={user.name} />
-									<AvatarFallback>{`${user.name[0]}`}</AvatarFallback>
+									<AvatarImage src={data.user.image ?? undefined} alt={data.user.name} />
+									<AvatarFallback>{`${data.user.name[0]}`}</AvatarFallback>
 								</Avatar>
 								<div className="grid flex-1 text-left text-sm leading-tight">
-									<span className="truncate font-medium">{user.name}</span>
-									<span className="text-muted-foreground truncate text-xs">{user.email}</span>
+									<span className="truncate font-medium">{data.user.name}</span>
+									<span className="text-muted-foreground truncate text-xs">{data.user.email}</span>
 								</div>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
