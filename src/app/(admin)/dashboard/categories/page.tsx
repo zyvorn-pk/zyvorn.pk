@@ -1,19 +1,17 @@
-import { PlusIcon } from "lucide-react";
+import { cacheLife, cacheTag } from "next/cache";
 
-import { Button } from "@/components/ui/button";
-import { DashboardHeader } from "@/components/dashboard/header";
+import { prisma } from "@/lib/db";
+import { dashboardCategoriesColumn as columns } from "@/components/dashboard/categories/columns";
+import { DashboardCategoriesTable } from "@/components/dashboard/categories/table";
 
-export default function DashboardCategoriesPage() {
-	return (
-		<>
-			<DashboardHeader currentPath="Categories" paths={[{ title: "Home", url: "/dashboard" }]} />
-			<div className="flex items-center justify-between">
-				<h1 className="text-xl/9 font-semibold">Categories</h1>
-				<Button>
-					<PlusIcon />
-					Add Category
-				</Button>
-			</div>
-		</>
-	);
+async function getCategories() {
+	"use cache";
+	cacheLife("days");
+	cacheTag("categories");
+	return await prisma.categroy.findMany({ include: { _count: { select: { products: true } } } });
+}
+
+export default async function DashboardCategoriesPage() {
+	const data = await getCategories();
+	return <DashboardCategoriesTable columns={columns} data={data} />;
 }
