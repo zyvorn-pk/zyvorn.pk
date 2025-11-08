@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HomeIcon, SettingsIcon, ShoppingBagIcon, ShoppingCartIcon, TagIcon, UserIcon } from "lucide-react";
 
 import { useSession } from "@/lib/auth/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,35 +19,15 @@ import {
 	useSidebar
 } from "@/components/ui/sidebar";
 
+import { sidebarRoutes } from "./routes";
+import { getSidebarActiveItem } from "./utils";
+
 export function DashboardSidebar() {
-	const pathname = usePathname();
+	const { data } = useSession();
 	const { setOpenMobile } = useSidebar();
 
-	const { data } = useSession();
-
-	const sidebarItems = [
-		{
-			label: "Admin",
-			menu: [
-				{ title: "Home", url: "/dashboard", icon: HomeIcon },
-				{ title: "Orders", url: "/dashboard/orders", icon: ShoppingCartIcon }
-			]
-		},
-		{
-			label: "Store",
-			menu: [
-				{ title: "Products", url: "/dashboard/products", icon: ShoppingBagIcon },
-				{ title: "Categories", url: "/dashboard/categories", icon: TagIcon }
-			]
-		},
-		{
-			label: "Account",
-			menu: [
-				{ title: "Profile", url: "/account", icon: UserIcon },
-				{ title: "Settings", url: "/dashboard/settings", icon: SettingsIcon }
-			]
-		}
-	];
+	const pathname = usePathname();
+	const activeUrl = getSidebarActiveItem(pathname);
 
 	return (
 		<Sidebar>
@@ -56,7 +35,7 @@ export function DashboardSidebar() {
 				<h1 className="text-center text-2xl font-semibold uppercase">Admin Panel</h1>
 			</SidebarHeader>
 			<SidebarContent>
-				{sidebarItems.map(({ label, menu }) => (
+				{sidebarRoutes.map(({ label, menu }) => (
 					<SidebarGroup key={label}>
 						<SidebarGroupLabel>{label}</SidebarGroupLabel>
 						<SidebarGroupContent>
@@ -65,7 +44,7 @@ export function DashboardSidebar() {
 									<SidebarMenuItem key={title}>
 										<SidebarMenuButton
 											className="data-[active=true]:text-primary-foreground data-[active=true]:bg-primary"
-											isActive={pathname === url}
+											isActive={activeUrl === url}
 											asChild
 										>
 											<Link href={url} onClick={() => setOpenMobile(false)}>

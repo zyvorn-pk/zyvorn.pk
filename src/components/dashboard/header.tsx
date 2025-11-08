@@ -1,5 +1,8 @@
+"use client";
+
 import { Fragment } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
 	Breadcrumb,
@@ -12,31 +15,59 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
-interface DashboardHeaderProps {
-	currentPath: string;
-	paths?: { title: string; url: string }[];
-}
+import { dashboardRoutes } from "./routes";
+import { getHeaderRoutes } from "./utils";
 
-export function DashboardHeader({ currentPath, paths }: DashboardHeaderProps) {
+export function DashboardHeader() {
+	const path = usePathname();
+	const currentRoute = dashboardRoutes.find((val) => getHeaderRoutes(val.route, path));
+
 	return (
 		<header className="flex shrink-0 items-center gap-2 border-b px-4 py-2">
 			<SidebarTrigger className="-ml-1" />
 			<Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
 			<Breadcrumb>
 				<BreadcrumbList>
-					{paths?.map((item) => (
+					{currentRoute?.routeList.map((item) => (
 						<Fragment key={item.url}>
 							<BreadcrumbLink className="capitalize" asChild>
-								<Link href={item.url}>{item.title}</Link>
+								<Link href={item.url} prefetch={false}>
+									{item.name}
+								</Link>
 							</BreadcrumbLink>
 							<BreadcrumbSeparator />
 						</Fragment>
 					))}
 					<BreadcrumbItem>
-						<BreadcrumbPage>{currentPath}</BreadcrumbPage>
+						<BreadcrumbPage>{currentRoute?.routeTitle}</BreadcrumbPage>
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
 		</header>
 	);
 }
+
+// function Header() {
+// 	const path = usePathname();
+// 	const currentRoute = dashboardRoutes.find((val) => getHeaderRoutes(val.route, path));
+
+// 	return (
+// 		<Breadcrumb>
+// 			<BreadcrumbList>
+// 				{currentRoute?.routeList.map((item) => (
+// 					<Fragment key={item.url}>
+// 						<BreadcrumbLink className="capitalize" asChild>
+// 							<Link href={item.url} prefetch={false}>
+// 								{item.name}
+// 							</Link>
+// 						</BreadcrumbLink>
+// 						<BreadcrumbSeparator />
+// 					</Fragment>
+// 				))}
+// 				<BreadcrumbItem>
+// 					<BreadcrumbPage>{currentRoute?.routeTitle}</BreadcrumbPage>
+// 				</BreadcrumbItem>
+// 			</BreadcrumbList>
+// 		</Breadcrumb>
+// 	);
+// }
