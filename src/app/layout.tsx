@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
+import { QueryProvider } from "@/lib/tanstack/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
@@ -17,9 +19,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
 	return (
-		<html lang="en" data-scroll-behavior="smooth">
+		<html lang="en" data-scroll-behavior="smooth" className="scroll-smooth">
 			<body className="scroll-smooth antialiased" style={outfit.style}>
-				{children}
+				<QueryProvider>
+					<NuqsAdapter>{children}</NuqsAdapter>
+				</QueryProvider>
 				<Toaster />
 			</body>
 		</html>

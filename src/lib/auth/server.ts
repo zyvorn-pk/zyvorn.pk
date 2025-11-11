@@ -1,11 +1,12 @@
+import { cache } from "react";
 import { headers } from "next/headers";
 import { forbidden, redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
 
-export async function getSession() {
+export const getSession = cache(async () => {
 	return await auth.api.getSession({ headers: await headers() });
-}
+});
 
 export async function getAdminSession() {
 	const session = await auth.api.getSession({ headers: await headers() });
