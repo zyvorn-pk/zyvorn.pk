@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { flexRender, getCoreRowModel, getFilteredRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { PlusIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -32,12 +31,10 @@ export function DashboardCategoriesTable<TData, TValue>({ data, columns }: Dashb
 						value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
 						onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)}
 					/>
-					<Button asChild>
-						<Link href="/dashboard/categories/new">
-							<PlusIcon />
-							New Category
-						</Link>
-					</Button>
+					<LinkButton href="/dashboard/categories/new">
+						<PlusIcon />
+						New Category
+					</LinkButton>
 				</div>
 			</div>
 			<div className="overflow-hidden rounded-md border">

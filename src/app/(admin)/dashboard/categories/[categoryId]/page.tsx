@@ -1,7 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { CategoryForm } from "@/components/dashboard/categories/form";
 
 async function getCategoryById(categoryId: string) {
@@ -9,7 +9,7 @@ async function getCategoryById(categoryId: string) {
 	cacheLife("days");
 	cacheTag(`category-${categoryId}`);
 
-	const category = await prisma.categroy.findUnique({ where: { id: categoryId } });
+	const category = await db.categroy.findUnique({ where: { id: categoryId } });
 
 	if (!category) return notFound();
 
