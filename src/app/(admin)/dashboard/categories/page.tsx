@@ -7,7 +7,7 @@ import { DashboardCategoriesTable } from "@/components/dashboard/categories/tabl
 async function getCategories() {
 	"use cache";
 	cacheLife("days");
-	cacheTag("categories");
+	cacheTag("dashboard-categories");
 	return await prisma.categroy.findMany({ include: { _count: { select: { products: true } } } });
 }
 

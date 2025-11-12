@@ -1,6 +1,6 @@
 "use server";
 
-import { refresh, updateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 import { getAdminSession } from "@/lib/auth/server";
 import { prisma } from "@/lib/db";
@@ -20,7 +20,7 @@ export async function upsertCategoryAction(data: CategorySchema, categoryId?: st
 			updateTag(`category-${categoryId}`);
 		}
 
-		updateTag("categories");
+		updateTag("dashboard-categories");
 
 		return { error: null };
 	} catch (error) {
@@ -35,9 +35,7 @@ export async function deleteCategoryAction(categoryId: string) {
 
 		await prisma.categroy.delete({ where: { id: categoryId } });
 
-		updateTag("categories");
-
-		refresh();
+		updateTag("dashboard-categories");
 
 		return { error: null };
 	} catch (error) {
