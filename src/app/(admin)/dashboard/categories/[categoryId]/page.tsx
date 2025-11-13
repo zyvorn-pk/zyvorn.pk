@@ -9,7 +9,7 @@ async function getCategoryById(categoryId: string) {
 	cacheLife("days");
 	cacheTag(`category-${categoryId}`);
 
-	const category = await db.categroy.findUnique({ where: { id: categoryId } });
+	const category = await db.category.findUnique({ where: { id: categoryId } });
 
 	if (!category) return notFound();
 

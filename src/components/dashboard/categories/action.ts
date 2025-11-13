@@ -14,9 +14,9 @@ export async function upsertCategoryAction(data: CategorySchema, categoryId?: st
 		await getAdminSession();
 
 		if (!categoryId) {
-			await db.categroy.create({ data });
+			await db.category.create({ data });
 		} else {
-			await db.categroy.update({ where: { id: categoryId }, data });
+			await db.category.update({ where: { id: categoryId }, data });
 			updateTag(`category-${categoryId}`);
 		}
 
@@ -33,7 +33,7 @@ export async function deleteCategoryAction(categoryId: string) {
 	try {
 		await getAdminSession();
 
-		await db.categroy.delete({ where: { id: categoryId } });
+		await db.category.delete({ where: { id: categoryId } });
 
 		updateTag("dashboard-categories");
 

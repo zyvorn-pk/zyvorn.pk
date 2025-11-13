@@ -8,7 +8,7 @@ async function getCategories() {
 	"use cache";
 	cacheLife("days");
 	cacheTag("dashboard-categories");
-	return await db.categroy.findMany({ include: { _count: { select: { products: true } } } });
+	return await db.category.findMany({ include: { _count: { select: { products: true } } } });
 }
 
 export default async function DashboardCategoriesPage() {
