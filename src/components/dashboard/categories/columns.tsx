@@ -5,14 +5,14 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
-import type { Categroy } from "@/lib/prisma";
+import type { Category } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/delete-dialog";
 
 import { deleteCategoryAction } from "./action";
 
-export const dashboardCategoriesColumn: ColumnDef<Categroy & { _count: { products: number } }>[] = [
+export const dashboardCategoriesColumn: ColumnDef<Category & { _count: { products: number } }>[] = [
 	{ accessorKey: "name", header: "Name" },
 	{ accessorKey: "_count", header: "No. of products", cell: ({ row }) => `${row.original._count.products} products` },
 	{ accessorKey: "createdAt", header: "Date", cell: ({ row }) => formatDate(row.original.createdAt) },
