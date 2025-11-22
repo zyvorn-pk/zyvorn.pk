@@ -1,17 +1,17 @@
-import { PlusIcon } from "lucide-react";
+import { cacheLife, cacheTag } from "next/cache";
 
-import { LinkButton } from "@/components/ui/button";
+import { db } from "@/lib/db";
+import { dashboardProductsColumn as columns } from "@/components/dashboard/products/columns";
+import { DashboardProductsTable } from "@/components/dashboard/products/table";
 
-export default function DashboardProductsPage() {
-	return (
-		<>
-			<div className="flex items-center justify-between">
-				<h1 className="text-xl/9 font-semibold">Products</h1>
-				<LinkButton href="/dashboard/products/new">
-					<PlusIcon />
-					New Product
-				</LinkButton>
-			</div>
-		</>
-	);
+async function getProducts() {
+	"use cache";
+	cacheLife("days");
+	cacheTag("dashboard-products");
+	return await db.product.findMany({ include: { category: true }, orderBy: { createdAt: "desc" } });
+}
+
+export default async function DashboardProductsPage() {
+	const data = await getProducts();
+	return <DashboardProductsTable columns={columns} data={data} />;
 }

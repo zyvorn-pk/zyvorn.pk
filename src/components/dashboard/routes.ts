@@ -58,7 +58,7 @@ export const dashboardRoutes = [
 	},
 	{
 		route: "/dashboard/products/productId",
-		routeTitle: "Product Id",
+		routeTitle: "Edit Product",
 		routeList: [
 			{ name: "Dashboard", url: "/dashboard" },
 			{ name: "Products", url: "/dashboard/products" }
