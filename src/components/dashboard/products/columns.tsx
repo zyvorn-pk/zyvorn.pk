@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
 import type { Category, Product } from "@/lib/prisma/client";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/delete-dialog";
 import { ProductImage } from "@/components/product/product-image";
 
@@ -37,11 +36,9 @@ export const dashboardProductsColumn: ColumnDef<Product & { category: Category }
 		cell: ({ row }) => {
 			return (
 				<div className="inline-flex items-center">
-					<Button variant="ghost" size="icon-sm" asChild>
-						<Link href={`/dashboard/products/${row.original.id}`}>
-							<EditIcon className="text-muted-foreground" />
-						</Link>
-					</Button>
+					<LinkButton href={`/dashboard/products/${row.original.id}`} variant="ghost" size="icon-sm">
+						<EditIcon className="text-muted-foreground" />
+					</LinkButton>
 					<DeleteDialog
 						title={`Delete Product?`}
 						description={`Are you sure you want to delete. This action will permanently remove the ${row.original.title.toLowerCase()} and this action cannot be undone.`}

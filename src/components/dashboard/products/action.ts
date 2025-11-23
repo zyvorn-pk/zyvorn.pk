@@ -14,16 +14,16 @@ export async function upserProductAction(data: ProductSchema, productId?: string
 
 		await getAdminSession();
 
-		if (productId) {
+		if (!productId) {
+			await db.product.create({
+				data: { ...data, description: data.description || null, discountPrice: data.discountPrice || null }
+			});
+		} else {
 			await db.product.update({
 				where: { id: productId },
 				data: { ...data, description: data.description || null, discountPrice: data.discountPrice || null }
 			});
 			updateTag(`dashboard-product-${productId}`);
-		} else {
-			await db.product.create({
-				data: { ...data, description: data.description || null, discountPrice: data.discountPrice || null }
-			});
 		}
 
 		updateTag("dashboard-products");

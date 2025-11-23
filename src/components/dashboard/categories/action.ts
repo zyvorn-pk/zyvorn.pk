@@ -1,6 +1,7 @@
 "use server";
 
 import { updateTag } from "next/cache";
+import { unstable_rethrow as rethrow } from "next/navigation";
 
 import { getAdminSession } from "@/lib/auth/server";
 import { db } from "@/lib/db";
@@ -21,9 +22,11 @@ export async function upsertCategoryAction(data: CategorySchema, categoryId?: st
 		}
 
 		updateTag("dashboard-categories");
+		updateTag("categories");
 
 		return { error: null };
 	} catch (error) {
+		rethrow(error);
 		console.error(error);
 		return { error: "Something went wrong" };
 	}
@@ -36,9 +39,11 @@ export async function deleteCategoryAction(categoryId: string) {
 		await db.category.delete({ where: { id: categoryId } });
 
 		updateTag("dashboard-categories");
+		updateTag("categories");
 
 		return { error: null };
 	} catch (error) {
+		rethrow(error);
 		console.error(error);
 		return { error: "Something went wrong" };
 	}

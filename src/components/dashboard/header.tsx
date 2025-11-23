@@ -46,28 +46,3 @@ export function DashboardHeader() {
 		</header>
 	);
 }
-
-// function Header() {
-// 	const path = usePathname();
-// 	const currentRoute = dashboardRoutes.find((val) => getHeaderRoutes(val.route, path));
-
-// 	return (
-// 		<Breadcrumb>
-// 			<BreadcrumbList>
-// 				{currentRoute?.routeList.map((item) => (
-// 					<Fragment key={item.url}>
-// 						<BreadcrumbLink className="capitalize" asChild>
-// 							<Link href={item.url} prefetch={false}>
-// 								{item.name}
-// 							</Link>
-// 						</BreadcrumbLink>
-// 						<BreadcrumbSeparator />
-// 					</Fragment>
-// 				))}
-// 				<BreadcrumbItem>
-// 					<BreadcrumbPage>{currentRoute?.routeTitle}</BreadcrumbPage>
-// 				</BreadcrumbItem>
-// 			</BreadcrumbList>
-// 		</Breadcrumb>
-// 	);
-// }

@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
-import type { Category } from "@/lib/prisma";
+import type { Category } from "@/lib/prisma/client";
 import { formatDate } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/delete-dialog";
 
 import { deleteCategoryAction } from "./action";
@@ -22,11 +21,9 @@ export const dashboardCategoriesColumn: ColumnDef<Category & { _count: { product
 		cell: ({ row }) => {
 			return (
 				<div className="inline-flex items-center">
-					<Button variant="ghost" size="icon-sm" asChild>
-						<Link href={`/dashboard/categories/${row.original.id}`}>
-							<EditIcon className="text-muted-foreground" />
-						</Link>
-					</Button>
+					<LinkButton href={`/dashboard/categories/${row.original.id}`} variant="ghost" size="icon-sm">
+						<EditIcon className="text-muted-foreground" />
+					</LinkButton>
 					<DeleteDialog
 						title={`Delete ${row.original.name} Category?`}
 						description={`Are you sure you want to delete. This action will permanently remove the ${row.original.name.toLowerCase()} category and all products within it. This action cannot be undone.`}
