@@ -58,8 +58,28 @@ export function CategoryForm({ defaultValues, categoryId }: { defaultValues: Cat
 								aria-invalid={isInvalid}
 								onChange={(e) => {
 									field.handleChange(e.target.value);
-									form.setFieldValue("slug", formatSlug(e.target.value));
+									!form.state.fieldMeta.slug.isBlurred && form.setFieldValue("slug", formatSlug(e.target.value));
 								}}
+							/>
+							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
+						</Field>
+					);
+				}}
+			/>
+			<form.Field
+				name="slug"
+				children={(field) => {
+					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+					return (
+						<Field className="gap-1">
+							<FieldLabel htmlFor={field.name}>Slug</FieldLabel>
+							<Input
+								id={field.name}
+								name={field.name}
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								aria-invalid={isInvalid}
+								onChange={(e) => field.handleChange(e.target.value)}
 							/>
 							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
 						</Field>

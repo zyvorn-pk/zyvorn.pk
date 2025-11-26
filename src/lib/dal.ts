@@ -14,6 +14,12 @@ export const getCategories = cache(async () => {
 	return await db.category.findMany();
 });
 
+export const getCategoryBySlug = cache(async (slug: string) => {
+	cacheLife("days");
+	cacheTag(`${slug}-category`);
+	return await db.category.findUnique({ where: { slug } });
+});
+
 export const getLatestProducts = cache(async () => {
 	cacheLife("days");
 	cacheTag("latest-products");
@@ -31,13 +37,13 @@ export const getCollectionProducts = cache(async (slug: string) => {
 
 	if (slug === "all") {
 		return await db.product.findMany({
+			omit: { costPrice: true },
 			orderBy: { createdAt: "desc" },
-			where: { status: "PUBLISHED" },
-			omit: { costPrice: true }
+			where: { status: "PUBLISHED" }
 		});
 	}
 
-	const category = await db.category.findUnique({ where: { slug } });
+	const category = await getCategoryBySlug(slug);
 	if (!category) return notFound();
 
 	return await db.product.findMany({
