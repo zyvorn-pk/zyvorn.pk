@@ -1,6 +1,13 @@
+import { getLatestProducts } from "@/lib/dal";
 import { LinkButton } from "@/components/ui/button";
-import { ImageCarousel } from "@/components/store/home/image-carousel";
-import { LatestProducts } from "@/components/store/home/latest-products";
+import { ProductCard } from "@/components/product/product-card";
+
+import { ImageCarousel } from "./image-carousel";
+
+async function LatestProducts() {
+	const products = await getLatestProducts();
+	return products.map((product) => <ProductCard key={product.id} product={product} />);
+}
 
 export default function StoreHomePage() {
 	return (

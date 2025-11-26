@@ -1,3 +1,5 @@
+import { ProductCardSkeleton } from "@/components/product/product-card";
+
 export default function StoreCollectionsLoading() {
-	return;
+	return <ProductCardSkeleton length={15} />;
 }
