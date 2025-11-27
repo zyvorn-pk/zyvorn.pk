@@ -10,13 +10,13 @@ export function ProductCard({ product }: { product: Omit<Product, "costPrice"> }
 		<div className="relative space-y-1">
 			<Link href={`/products/${product.slug}`} className="block space-y-1">
 				<ProductImage src={product.images[0]} alt={product.title} size={220} transformation="listing" />
-				<p className="line-clamp-2 text-sm leading-7 font-medium md:text-base">{product.title}</p>
+				<p className="line-clamp-2 text-sm font-medium md:text-base">{product.title}</p>
 			</Link>
 			<div className="flex items-end gap-x-1">
-				{product.discountPrice && <span className="leading-6 font-medium">{`Rs.${product.discountPrice}`}</span>}
-				<span className={cn("block", product.discountPrice ? "text-muted-foreground text-sm font-normal line-through" : "font-medium")}>
+				{product.discountPrice && <p className="text-sm font-medium md:text-base">{`Rs.${product.discountPrice}`}</p>}
+				<p className={cn(product.discountPrice ? "text-muted-foreground text-sm font-normal line-through" : "text-xs font-medium")}>
 					{`Rs.${product.salePrice}`}
-				</span>
+				</p>
 			</div>
 		</div>
 	);

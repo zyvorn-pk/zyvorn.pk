@@ -52,3 +52,19 @@ export const getCollectionProducts = cache(async (slug: string) => {
 		where: { status: "PUBLISHED", categoryId: category.id }
 	});
 });
+
+export const getProductBySlug = cache(async (slug: string) => {
+	cacheLife("days");
+	cacheTag(`${slug}-product`);
+	return await db.product.findUnique({ where: { slug, status: "PUBLISHED" }, omit: { costPrice: true } });
+});
+
+export const getCategoryProducts = cache(async (categoryId: string, productId: string) => {
+	cacheLife("days");
+	cacheTag(`${categoryId}-category-products`);
+	return await db.product.findMany({
+		take: 4,
+		omit: { costPrice: true },
+		where: { categoryId, status: "PUBLISHED", id: { not: productId } }
+	});
+});
