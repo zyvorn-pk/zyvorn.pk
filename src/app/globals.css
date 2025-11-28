@@ -117,4 +117,16 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+	.decoration-gradient {
+		@apply before:bg-primary relative cursor-pointer before:absolute before:bottom-0 before:left-0 before:h-[3px] before:w-full before:origin-left before:scale-x-0 before:rounded-full before:transition-transform before:duration-300 hover:before:scale-x-100;
+	}
+	input::-webkit-inner-spin-button {
+		display: none;
+	}
+	input::-webkit-color-swatch-wrapper {
+		padding: 0px 0px;
+	}
+	input::-webkit-color-swatch {
+		border: none;
+	}
 }

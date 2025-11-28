@@ -28,6 +28,13 @@ export async function upserProductAction(data: ProductSchema, productId?: string
 
 		updateTag("dashboard-products");
 
+		if (data.status === "PUBLISHED") {
+			updateTag("latest-products");
+			updateTag("all-collection");
+			const category = await db.category.findUnique({ where: { id: data.categoryId } });
+			updateTag(`${category?.slug}-collection`);
+		}
+
 		return { error: null };
 	} catch (error) {
 		rethrow(error);
@@ -40,9 +47,13 @@ export async function deleteProductAction(productId: string) {
 	try {
 		await getAdminSession();
 
-		await db.product.delete({ where: { id: productId } });
+		const product = await db.product.delete({ where: { id: productId } });
 
 		updateTag("dashboard-products");
+		updateTag("latest-products");
+		updateTag("all-collection");
+		const category = await db.category.findUnique({ where: { id: product.categoryId } });
+		updateTag(`${category?.slug}-collection`);
 
 		return { error: null };
 	} catch (error) {

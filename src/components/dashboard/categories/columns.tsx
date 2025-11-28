@@ -11,9 +11,17 @@ import { DeleteDialog } from "@/components/delete-dialog";
 
 import { deleteCategoryAction } from "./action";
 
-export const dashboardCategoriesColumn: ColumnDef<Category & { _count: { products: number } }>[] = [
+export const dashboardCategoriesColumn: ColumnDef<Category>[] = [
 	{ accessorKey: "name", header: "Name" },
-	{ accessorKey: "_count", header: "No. of products", cell: ({ row }) => `${row.original._count.products} products` },
+	{
+		accessorKey: "slug",
+		header: "Link",
+		cell: ({ row }) => (
+			<a href={`/collections/${row.original.slug}`} target="_blank" rel="noopener noreferrer" className="hover:underline">
+				{`/collections/${row.original.slug}`}
+			</a>
+		)
+	},
 	{ accessorKey: "createdAt", header: "Date", cell: ({ row }) => formatDate(row.original.createdAt) },
 	{
 		id: "actions",

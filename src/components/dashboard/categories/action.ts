@@ -17,11 +17,11 @@ export async function upsertCategoryAction(data: CategorySchema, categoryId?: st
 		if (!categoryId) {
 			await db.category.create({ data });
 		} else {
-			await db.category.update({ where: { id: categoryId }, data });
+			const { slug } = await db.category.update({ where: { id: categoryId }, data });
 			updateTag(`category-${categoryId}`);
+			updateTag(`${slug}-category`);
 		}
 
-		updateTag("dashboard-categories");
 		updateTag("categories");
 
 		return { error: null };
@@ -38,7 +38,6 @@ export async function deleteCategoryAction(categoryId: string) {
 
 		await db.category.delete({ where: { id: categoryId } });
 
-		updateTag("dashboard-categories");
 		updateTag("categories");
 
 		return { error: null };
