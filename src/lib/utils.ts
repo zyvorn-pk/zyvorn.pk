@@ -14,3 +14,10 @@ export function formatDate(date: string | Date) {
 export function formatSlug(value: string) {
 	return slugify(value, { lower: true, trim: true });
 }
+
+export function formatPrice(price: number) {
+	return new Intl.NumberFormat("en-IN", {
+		minimumFractionDigits: 0,
+		maximumFractionDigits: 2
+	}).format(price);
+}
