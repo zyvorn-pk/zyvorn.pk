@@ -31,7 +31,7 @@ export function DashboardProductsTable<TData, TValue>({ data, columns }: Dashboa
 						value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
 						onChange={(e) => table.getColumn("title")?.setFilterValue(e.target.value)}
 					/>
-					<LinkButton href="/dashboard/products/new">
+					<LinkButton href="/dashboard/products/new" prefetch>
 						<PlusIcon />
 						New Product
 					</LinkButton>

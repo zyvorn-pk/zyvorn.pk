@@ -34,8 +34,14 @@ export function DeleteDialog({ title, description, onDelete, closeOnDelete = tru
 		});
 	};
 
+	const handleClose = (open: boolean) => {
+		if (!isPending) {
+			setOpen(open);
+		}
+	};
+
 	return (
-		<Dialog open={open} onOpenChange={setOpen} {...props}>
+		<Dialog open={open} onOpenChange={handleClose} {...props}>
 			<DialogTrigger asChild>{children}</DialogTrigger>
 			<DialogContent showCloseButton={false}>
 				<DialogHeader>

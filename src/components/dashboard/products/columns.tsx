@@ -4,7 +4,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
-import type { Category, Product } from "@/lib/prisma/client";
+import type { Product } from "@/lib/prisma/client";
+import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button, LinkButton } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/delete-dialog";
@@ -12,15 +13,18 @@ import { ProductImage } from "@/components/product/product-image";
 
 import { deleteProductAction } from "./action";
 
-export const dashboardProductsColumn: ColumnDef<Product & { category: Category }>[] = [
+export const dashboardProductsColumn: ColumnDef<Omit<Product, "costPrice">>[] = [
 	{
-		accessorKey: "images",
-		header: "Image",
-		cell: ({ row }) => <ProductImage src={row.original.images[0]} alt="image" transformation="thumbnail" className="size-20" size={80} />
+		id: "title",
+		header: "Title",
+		cell: ({ row }) => (
+			<div className="flex items-center gap-2">
+				<ProductImage src={row.original.images[0]} alt={row.original.title} size={60} className="size-15" transformation="thumbnail" />
+				<p className="line-clamp-2 max-w-65 font-medium text-pretty">{row.original.title}</p>
+			</div>
+		)
 	},
-	{ accessorKey: "title", header: "Title", cell: ({ row }) => <p className="max-w-65 truncate">{row.original.title}</p> },
 	{ id: "price", header: "Price", cell: ({ row }) => `Rs.${row.original.discountPrice ?? row.original.salePrice}` },
-	{ id: "category", header: "Category", cell: ({ row }) => <span className="capitalize">{row.original.category.name}</span> },
 	{ accessorKey: "stock", header: "Stock" },
 	{
 		accessorKey: "status",
@@ -30,6 +34,7 @@ export const dashboardProductsColumn: ColumnDef<Product & { category: Category }
 			return <Badge variant={status === "ARCHIVED" ? "destructive" : status === "PUBLISHED" ? "secondary" : "default"}>{status}</Badge>;
 		}
 	},
+	{ id: "createdAt", header: "Date", cell: ({ row }) => formatDate(row.original.createdAt) },
 	{
 		id: "actions",
 		header: "Actions",

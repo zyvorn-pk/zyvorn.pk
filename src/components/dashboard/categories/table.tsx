@@ -31,7 +31,7 @@ export function DashboardCategoriesTable<TData, TValue>({ data, columns }: Dashb
 						value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
 						onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)}
 					/>
-					<LinkButton href="/dashboard/categories/new">
+					<LinkButton href="/dashboard/categories/new" prefetch>
 						<PlusIcon />
 						New Category
 					</LinkButton>

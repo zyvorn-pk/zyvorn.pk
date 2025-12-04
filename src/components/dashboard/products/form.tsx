@@ -9,8 +9,8 @@ import type { Category, PRODUCT_STATUS } from "@/lib/prisma/client";
 import { formatSlug } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
+import { FloatingLabelInput } from "@/components/ui/floating-label-input";
+import { FloatingLabelSelect } from "@/components/ui/floating-label-select";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { TextEditor } from "@/components/ui/text-editor";
@@ -57,156 +57,101 @@ export function ProductForm({ defaultValues, productId, categories }: ProductFor
 		>
 			<form.Field
 				name="title"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Title</FieldLabel>
-							<Input
-								id={field.name}
-								name={field.name}
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								aria-invalid={isInvalid}
-								onChange={(e) => {
-									field.handleChange(e.target.value);
-									!form.state.fieldMeta.slug.isBlurred && form.setFieldValue("slug", formatSlug(e.target.value));
-								}}
-							/>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelInput
+						placeholder="Title"
+						name={field.name}
+						value={field.state.value}
+						onBlur={field.handleBlur}
+						errors={field.state.meta.errors}
+						isInvalid={field.state.meta.isTouched && !field.state.meta.isValid}
+						onChange={(e) => {
+							field.handleChange(e.target.value);
+							!form.state.fieldMeta.slug.isBlurred && form.setFieldValue("slug", formatSlug(e.target.value));
+						}}
+					/>
+				)}
 			/>
 
 			<form.Field
 				name="slug"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Slug</FieldLabel>
-							<Input
-								id={field.name}
-								name={field.name}
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								aria-invalid={isInvalid}
-								onChange={(e) => field.handleChange(e.target.value)}
-							/>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelInput
+						placeholder="Slug"
+						name={field.name}
+						value={field.state.value}
+						onBlur={field.handleBlur}
+						errors={field.state.meta.errors}
+						isInvalid={field.state.meta.isTouched && !field.state.meta.isValid}
+						onChange={(e) => field.handleChange(e.target.value)}
+					/>
+				)}
 			/>
 
 			<form.Field
 				name="categoryId"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Category</FieldLabel>
-							<Select name={field.name} value={field.state.value} onValueChange={(value) => field.handleChange(value)}>
-								<SelectTrigger>
-									<SelectValue id={field.name} aria-invalid={isInvalid} />
-								</SelectTrigger>
-								<SelectContent>
-									{categories.map(({ id, name }) => (
-										<SelectItem key={id} value={id}>
-											{name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelSelect
+						placeholder="Category"
+						name={field.name}
+						value={field.state.value}
+						onValueChange={(value) => field.handleChange(value)}
+					>
+						{categories.map(({ id, name }) => (
+							<SelectItem key={id} value={id}>
+								{name}
+							</SelectItem>
+						))}
+					</FloatingLabelSelect>
+				)}
 			/>
 
 			<form.Field
 				name="costPrice"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Cost Price</FieldLabel>
-							<InputGroup>
-								<InputGroupAddon>
-									<InputGroupText>Rs.</InputGroupText>
-								</InputGroupAddon>
-								<InputGroupInput
-									type="number"
-									id={field.name}
-									name={field.name}
-									className="px-0.5!"
-									value={field.state.value || ""}
-									onBlur={field.handleBlur}
-									aria-invalid={isInvalid}
-									onChange={(e) => field.handleChange(Number(e.target.value))}
-								/>
-							</InputGroup>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelInput
+						type="number"
+						placeholder="Cost Price"
+						name={field.name}
+						value={field.state.value || ""}
+						onBlur={field.handleBlur}
+						errors={field.state.meta.errors}
+						isInvalid={field.state.meta.isTouched && !field.state.meta.isValid}
+						onChange={(e) => field.handleChange(Number(e.target.value))}
+					/>
+				)}
 			/>
 
 			<form.Field
 				name="salePrice"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Sale Price</FieldLabel>
-							<InputGroup>
-								<InputGroupAddon>
-									<InputGroupText>Rs.</InputGroupText>
-								</InputGroupAddon>
-								<InputGroupInput
-									type="number"
-									id={field.name}
-									name={field.name}
-									className="px-0.5!"
-									value={field.state.value || ""}
-									onBlur={field.handleBlur}
-									aria-invalid={isInvalid}
-									onChange={(e) => field.handleChange(Number(e.target.value))}
-								/>
-							</InputGroup>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelInput
+						type="number"
+						placeholder="Sale Price"
+						name={field.name}
+						value={field.state.value || ""}
+						onBlur={field.handleBlur}
+						errors={field.state.meta.errors}
+						isInvalid={field.state.meta.isTouched && !field.state.meta.isValid}
+						onChange={(e) => field.handleChange(Number(e.target.value))}
+					/>
+				)}
 			/>
 
 			<form.Field
 				name="discountPrice"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Discount Price</FieldLabel>
-							<InputGroup>
-								<InputGroupAddon>
-									<InputGroupText>Rs.</InputGroupText>
-								</InputGroupAddon>
-								<InputGroupInput
-									type="number"
-									id={field.name}
-									name={field.name}
-									className="px-0.5!"
-									value={field.state.value || ""}
-									onBlur={field.handleBlur}
-									aria-invalid={isInvalid}
-									onChange={(e) => field.handleChange(Number(e.target.value))}
-								/>
-							</InputGroup>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelInput
+						type="number"
+						placeholder="Discount Price"
+						name={field.name}
+						value={field.state.value || ""}
+						onBlur={field.handleBlur}
+						errors={field.state.meta.errors}
+						isInvalid={field.state.meta.isTouched && !field.state.meta.isValid}
+						onChange={(e) => field.handleChange(Number(e.target.value))}
+					/>
+				)}
 			/>
 
 			<form.Field
@@ -256,55 +201,41 @@ export function ProductForm({ defaultValues, productId, categories }: ProductFor
 
 			<form.Field
 				name="stock"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Stock</FieldLabel>
-							<Input
-								type="number"
-								id={field.name}
-								name={field.name}
-								value={field.state.value || ""}
-								onBlur={field.handleBlur}
-								aria-invalid={isInvalid}
-								onChange={(e) => field.handleChange(Number(e.target.value))}
-							/>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelInput
+						type="number"
+						placeholder="Stock"
+						name={field.name}
+						value={field.state.value || ""}
+						onBlur={field.handleBlur}
+						errors={field.state.meta.errors}
+						isInvalid={field.state.meta.isTouched && !field.state.meta.isValid}
+						onChange={(e) => field.handleChange(Number(e.target.value))}
+					/>
+				)}
 			/>
 
 			<form.Field
 				name="status"
-				children={(field) => {
-					const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-					return (
-						<Field className="gap-1">
-							<FieldLabel htmlFor={field.name}>Status</FieldLabel>
-							<Select name={field.name} value={field.state.value} onValueChange={(value) => field.handleChange(value as PRODUCT_STATUS)}>
-								<SelectTrigger>
-									<SelectValue id={field.name} aria-invalid={isInvalid} />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="PUBLISHED">Published</SelectItem>
-									<SelectItem value="DRAFT">Draft</SelectItem>
-									<SelectItem value="ARCHIVED">Archived</SelectItem>
-								</SelectContent>
-							</Select>
-							{isInvalid && <FieldError className="text-sm" errors={field.state.meta.errors} />}
-						</Field>
-					);
-				}}
+				children={(field) => (
+					<FloatingLabelSelect
+						placeholder="Status"
+						name={field.name}
+						value={field.state.value}
+						onValueChange={(value) => field.handleChange(value as PRODUCT_STATUS)}
+					>
+						<SelectItem value="PUBLISHED">Published</SelectItem>
+						<SelectItem value="DRAFT">Draft</SelectItem>
+						<SelectItem value="ARCHIVED">Archived</SelectItem>
+					</FloatingLabelSelect>
+				)}
 			/>
 
-			<div className="lg:col-span-2 xl:col-span-3">
-				<Button type="submit" className="w-fit" disabled={imagePending || isPending}>
-					{(isPending || imagePending) && <Spinner />}
-					{imagePending ? "Uploading" : productId ? "Update" : "Create"}
-				</Button>
-			</div>
+			<div />
+
+			<Button type="submit" disabled={imagePending || isPending}>
+				{isPending || imagePending ? <Spinner /> : productId ? "Update" : "Create"}
+			</Button>
 		</form>
 	);
 }
