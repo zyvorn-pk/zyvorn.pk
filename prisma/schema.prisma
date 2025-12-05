@@ -16,8 +16,40 @@ enum PRODUCT_STATUS {
   @@schema("public")
 }
 
+enum PAYMENT_METHOD {
+  CASH_ON_DELIVERY
+  BANK_TRANSFER
+
+  @@schema("public")
+}
+
+enum ORDER_STATUS {
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+
+  @@schema("public")
+}
+
+enum PROVINCE {
+  PUNJAB
+  SINDH
+  BALOCHISTAN
+  KHYBER_PAKHTUNKHWA
+  AZAD_KASHMIR
+
+  @@schema("public")
+}
+
+enum COUNTRY {
+  PAKISTAN
+
+  @@schema("public")
+}
+
 model User {
-  id            String    @id
+  id            String    @id @default(nanoid())
   name          String
   email         String
   emailVerified Boolean   @default(false)
@@ -27,6 +59,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  orders        Order[]
 
   @@unique([email])
   @@map("users")
@@ -82,7 +115,7 @@ model Verification {
 }
 
 model Category {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   name      String
   slug      String    @unique
   createdAt DateTime  @default(now())
@@ -93,7 +126,7 @@ model Category {
 }
 
 model Product {
-  id            String         @id @default(uuid())
+  id            String         @id @default(cuid())
   title         String
   slug          String         @unique
   description   String?
@@ -108,7 +141,42 @@ model Product {
   updatedAt     DateTime       @updatedAt()
   categoryId    String
   category      Category       @relation(fields: [categoryId], references: [id])
+  orderItems    OrderItem[]
 
   @@index([id, slug, status, categoryId])
+  @@schema("public")
+}
+
+model Order {
+  id            String         @id @default(cuid())
+  userId        String?
+  user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email         String
+  name          String
+  phone         String
+  address       String
+  city          String
+  postalCode    String?
+  province      PROVINCE
+  country       COUNTRY
+  paymentMethod PAYMENT_METHOD
+  total         Int
+  status        ORDER_STATUS   @default(PROCESSING)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  items         OrderItem[]
+
+  @@schema("public")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Int
+
   @@schema("public")
 }

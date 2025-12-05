@@ -21,7 +21,7 @@ export async function StoreHeader() {
 			<div className="container mx-auto flex items-center justify-between px-4">
 				<ClientBoundary
 					fallback={
-						<Button size="icon" variant="link">
+						<Button size="icon" variant="link" className="md:hidden">
 							<MenuIcon />
 						</Button>
 					}
