@@ -9,7 +9,9 @@ export function ProductCard({ product }: { product: Omit<Product, "costPrice"> }
 	return (
 		<div className="relative space-y-1">
 			<Link href={`/products/${product.slug}`} className="block space-y-1">
-				<ProductImage src={product.images[0]} alt={product.title} size={220} transformation="listing" />
+				<div className="bg-muted shrink-0 overflow-hidden rounded-md">
+					<ProductImage src={product.images[0]} alt={product.title} size={220} transformation="listing" />
+				</div>
 				<p className="line-clamp-2 text-sm font-medium md:text-base">{product.title}</p>
 			</Link>
 			<div className="flex items-end gap-x-1">

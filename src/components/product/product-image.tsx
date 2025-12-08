@@ -10,15 +10,12 @@ interface ProductImageProps extends Omit<IKImageProps, "transformation"> {
 
 export function ProductImage({ size, transformation = "default", className, ...props }: ProductImageProps) {
 	return (
-		<div className={cn("bg-muted flex shrink-0 overflow-hidden rounded-md border object-cover", className)}>
-			<Image
-				width={size}
-				height={size}
-				transformationPosition="path"
-				className="aspect-square size-full"
-				transformation={[{ named: transformation }]}
-				{...props}
-			/>
-		</div>
+		<Image
+			width={size}
+			height={size}
+			className={cn("aspect-square size-full object-cover", className)}
+			transformation={[{ named: transformation }]}
+			{...props}
+		/>
 	);
 }

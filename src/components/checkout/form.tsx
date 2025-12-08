@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 
-import { COUNTRY, PAYMENT_METHOD, PROVINCE } from "@/lib/prisma/client";
+import type { COUNTRY, PAYMENT_METHOD, PROVINCE } from "@/lib/prisma/client";
 import { cn } from "@/lib/utils";
 import { AnimatedRadioGroup } from "@/components/ui/animated-radio-group";
 import { Button } from "@/components/ui/button";
@@ -15,10 +15,11 @@ import { Spinner } from "@/components/ui/spinner";
 import { checkoutSchema, type CheckoutSchema } from "@/components/checkout/schema";
 
 interface CheckoutFormProps extends React.ComponentProps<"form"> {
+	provinces: string[];
 	defaultValues: CheckoutSchema;
 }
 
-export function CheckoutForm({ className, defaultValues, ...props }: CheckoutFormProps) {
+export function CheckoutForm({ className, defaultValues, provinces, ...props }: CheckoutFormProps) {
 	const [isPending, startTransition] = useTransition();
 
 	const form = useForm({
@@ -87,7 +88,7 @@ export function CheckoutForm({ className, defaultValues, ...props }: CheckoutFor
 								value={field.state.value}
 								onValueChange={(value) => field.handleChange(value as COUNTRY)}
 							>
-								<SelectItem value={COUNTRY.PAKISTAN}>Pakistan</SelectItem>
+								<SelectItem value="PAKISTAN">Pakistan</SelectItem>
 							</FloatingLabelSelect>
 						)}
 					/>
@@ -101,7 +102,7 @@ export function CheckoutForm({ className, defaultValues, ...props }: CheckoutFor
 								value={field.state.value}
 								onValueChange={(value) => field.handleChange(value as PROVINCE)}
 							>
-								{Object.keys(PROVINCE).map((province) => (
+								{provinces.map((province) => (
 									<SelectItem key={province} value={province} className="capitalize">
 										{province.toLowerCase().split("_").join(" ")}
 									</SelectItem>
@@ -195,10 +196,10 @@ export function CheckoutForm({ className, defaultValues, ...props }: CheckoutFor
 							onValueChange={(value) => field.handleChange(value as PAYMENT_METHOD)}
 							isInvalid={field.state.meta.isTouched && !field.state.meta.isValid}
 							items={[
-								{ label: "Cash on Delivery", value: PAYMENT_METHOD.CASH_ON_DELIVERY },
+								{ label: "Cash on Delivery", value: "CASH_ON_DELIVERY" },
 								{
 									label: "Bank Deposit",
-									value: PAYMENT_METHOD.BANK_TRANSFER,
+									value: "BANK_TRANSFER",
 									description: (
 										<>
 											<p>Account Title: AHMAD IJAZ</p>

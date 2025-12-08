@@ -17,8 +17,8 @@ export async function StoreHeader() {
 	];
 
 	return (
-		<header className="bg-background sticky top-0 z-50 w-full py-3" style={{ boxShadow: "0 1px 3px rgb(0 0 0 / 10%)" }}>
-			<div className="container mx-auto flex items-center justify-between px-4">
+		<header className="bg-background sticky top-0 z-50 w-full" style={{ boxShadow: "0 1px 3px rgb(0 0 0 / 10%)" }}>
+			<div className="container mx-auto flex items-center justify-between px-4 py-3">
 				<ClientBoundary
 					fallback={
 						<Button size="icon" variant="link" className="md:hidden">
@@ -42,7 +42,7 @@ export async function StoreHeader() {
 					<AccountButton />
 					<ClientBoundary
 						fallback={
-							<Button variant="link" size="icon">
+							<Button variant="secondary" size="icon">
 								<ShoppingCartIcon />
 							</Button>
 						}

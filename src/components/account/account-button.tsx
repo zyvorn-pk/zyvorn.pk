@@ -12,8 +12,8 @@ export function AccountButton() {
 
 	return (
 		<Button
-			variant="link"
-			size="icon-sm"
+			size="icon"
+			variant="ghost"
 			onClick={() => {
 				if (isPending) return;
 				router.push(data ? "/account" : "/login");

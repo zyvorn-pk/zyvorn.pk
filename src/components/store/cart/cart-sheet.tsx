@@ -6,6 +6,7 @@ import { ShoppingCartIcon } from "lucide-react";
 import { useCartCount, useCartStore } from "@/lib/store/cart-store";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/hooks/use-cart";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
 	Sheet,
@@ -29,11 +30,9 @@ export function CartSheet() {
 	return (
 		<Sheet open={isOpen} onOpenChange={toggleCart}>
 			<SheetTrigger asChild>
-				<Button variant="link" size="icon" className="relative">
+				<Button variant="secondary" size="icon" className="relative">
 					<ShoppingCartIcon />
-					<span className="bg-foreground text-background absolute top-0.5 right-0.5 inline-flex size-4 items-center justify-center rounded-full text-[10px] tabular-nums">
-						{cart.status === "pending" ? localCount : cart.count}
-					</span>
+					<Badge variant="right">{cart.status === "pending" ? localCount : cart.count}</Badge>
 				</Button>
 			</SheetTrigger>
 			<SheetContent side="right" className="gap-0">
@@ -51,6 +50,7 @@ export function CartSheet() {
 function CartSheetContent({ data, status, totalAmount, count }: ReturnType<typeof useCart>) {
 	const router = useRouter();
 	const localCount = useCartCount();
+	const setOpen = useCartStore((state) => state.setOpen);
 
 	if (status === "error") {
 		return <CartError />;
@@ -80,7 +80,13 @@ function CartSheetContent({ data, status, totalAmount, count }: ReturnType<typeo
 					<p>Subtotal:</p>
 					<p>Rs&nbsp;{formatPrice(totalAmount)}</p>
 				</div>
-				<Button className="h-12 rounded-full font-semibold uppercase" onClick={() => router.push("/checkout")}>
+				<Button
+					className="h-12 rounded-full font-semibold uppercase"
+					onClick={() => {
+						setOpen(false);
+						router.push("/checkout");
+					}}
+				>
 					Checkout
 				</Button>
 			</SheetFooter>
