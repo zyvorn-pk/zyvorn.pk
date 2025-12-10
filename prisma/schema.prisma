@@ -60,6 +60,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   orders        Order[]
+  carts         Cart[]
 
   @@unique([email])
   @@map("users")
@@ -142,6 +143,7 @@ model Product {
   categoryId    String
   category      Category       @relation(fields: [categoryId], references: [id])
   orderItems    OrderItem[]
+  cartItems     CartItem[]
 
   @@index([id, slug, status, categoryId])
   @@schema("public")
@@ -150,7 +152,7 @@ model Product {
 model Order {
   id            String         @id @default(cuid())
   userId        String?
-  user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
   email         String
   name          String
   phone         String
@@ -175,8 +177,32 @@ model OrderItem {
   order     Order   @relation(fields: [orderId], references: [id])
   productId String
   product   Product @relation(fields: [productId], references: [id])
-  quantity  Int
+  quantity  Int     @default(1)
   price     Int
 
+  @@schema("public")
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  userId    String?
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+
+  @@index([id, userId])
+  @@schema("public")
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  @@index([id, productId, cartId])
   @@schema("public")
 }

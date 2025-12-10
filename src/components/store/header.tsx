@@ -4,8 +4,8 @@ import { MenuIcon, ShoppingCartIcon } from "lucide-react";
 import { getCategories } from "@/lib/dal";
 import { Button } from "@/components/ui/button";
 import { AccountButton } from "@/components/account/account-button";
+import { CartSheet } from "@/components/cart/cart-sheet";
 import { ClientBoundary } from "@/components/client-boundry";
-import { CartSheet } from "@/components/store/cart/cart-sheet";
 import { MobileNav } from "@/components/store/mobile-nav";
 
 export async function StoreHeader() {
