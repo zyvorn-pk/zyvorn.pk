@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MenuIcon, ShoppingCartIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 
 import { getCategories } from "@/lib/dal";
 import { Button } from "@/components/ui/button";
@@ -40,15 +40,7 @@ export async function StoreHeader() {
 				</nav>
 				<div className="space-x-1">
 					<AccountButton />
-					<ClientBoundary
-						fallback={
-							<Button variant="secondary" size="icon">
-								<ShoppingCartIcon />
-							</Button>
-						}
-					>
-						<CartSheet />
-					</ClientBoundary>
+					<CartSheet />
 				</div>
 			</div>
 		</header>

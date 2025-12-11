@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { useCartContext } from "@/context/cart-context";
-import { addToCart, removeFromCart } from "@/components/cart/actions";
+import { addToCart, getCart, removeFromCart } from "@/components/cart/actions";
 
 export function addItemMutation() {
 	const queryClient = useQueryClient();
@@ -30,8 +30,25 @@ export function removeItemMutation() {
 		mutationFn: async ({ productId }: { productId: string }) => {
 			return await removeFromCart(productId);
 		},
-		onSuccess: () => {
-			queryClient.refetchQueries({ queryKey: ["cart"] });
+		onMutate: async ({ productId }) => {
+			await queryClient.cancelQueries({ queryKey: ["cart"] });
+
+			const previousCart = queryClient.getQueryData<Awaited<ReturnType<typeof getCart>>>(["cart"]);
+
+			queryClient.setQueryData<Awaited<ReturnType<typeof getCart>>>(["cart"], (old) => {
+				if (!old) return old;
+				return { ...old, items: old.items.filter((item) => item.product.id !== productId) };
+			});
+
+			return { previousCart };
+		},
+		onError: (_err, _newTodo, context) => {
+			if (context?.previousCart) {
+				queryClient.setQueryData(["cart"], context.previousCart);
+			}
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["cart"] });
 		}
 	});
 }

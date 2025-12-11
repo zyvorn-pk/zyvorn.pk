@@ -35,7 +35,7 @@ export function CartSheet() {
 			<SheetTrigger asChild>
 				<Button variant="secondary" size="icon" className="relative">
 					<ShoppingCartIcon />
-					<Badge variant="right">{cart.status === "pending" ? (cart.count ?? 0) : cart.count}</Badge>
+					{cart.status === "success" && <Badge variant="right">{cart.count}</Badge>}
 				</Button>
 			</SheetTrigger>
 			<SheetContent side="right" className="gap-0">

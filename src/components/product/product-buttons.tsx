@@ -1,5 +1,6 @@
 "use client";
 
+import { useTransition } from "react";
 import { format } from "date-fns";
 import { TruckIcon } from "lucide-react";
 
@@ -12,7 +13,7 @@ export function ProductButtons({ stock, productId }: { stock: number; productId:
 	const deliveryStart = new Date().setDate(today.getDate() + 3);
 	const deliveryEnd = new Date().setDate(today.getDate() + 5);
 
-	const { mutate } = addItemMutation();
+	const { mutate, status } = addItemMutation();
 
 	if (!stock)
 		return (
@@ -25,12 +26,15 @@ export function ProductButtons({ stock, productId }: { stock: number; productId:
 
 	return (
 		<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-			<Button size="lg" className="rounded-full uppercase disabled:opacity-100" onClick={() => mutate({ productId })}>
-				Add to cart
+			<Button
+				size="lg"
+				className="rounded-full uppercase disabled:opacity-100"
+				onClick={() => mutate({ productId })}
+				disabled={status === "pending"}
+			>
+				{status === "pending" ? "Adding to cart..." : "Add to cart"}
 			</Button>
-			<Button size="lg" variant="outline" className="rounded-full uppercase" onClick={() => buyNow(productId)}>
-				Buy now
-			</Button>
+			<BuyNowButton productId={productId} />
 			<div className="text-muted-foreground flex items-start gap-2 text-sm md:col-span-2 md:text-base">
 				<TruckIcon size={20} className="shrink-0" />
 				<p>
@@ -39,5 +43,20 @@ export function ProductButtons({ stock, productId }: { stock: number; productId:
 				</p>
 			</div>
 		</div>
+	);
+}
+
+function BuyNowButton({ productId }: { productId: string }) {
+	const [isPending, startTransition] = useTransition();
+	return (
+		<Button
+			size="lg"
+			variant="outline"
+			className="rounded-full uppercase disabled:opacity-100"
+			onClick={() => startTransition(() => buyNow(productId))}
+			disabled={isPending}
+		>
+			Buy now
+		</Button>
 	);
 }

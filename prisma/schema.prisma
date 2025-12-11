@@ -185,12 +185,13 @@ model OrderItem {
 
 model Cart {
   id        String     @id @default(cuid())
+  isSingle  Boolean    @default(false)
   createdAt DateTime   @default(now())
   userId    String?
   user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   items     CartItem[]
 
-  @@index([id, userId])
+  @@index([id, userId, isSingle])
   @@schema("public")
 }
 
