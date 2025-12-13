@@ -21,7 +21,7 @@ export function FloatingLabelSelect({ placeholder, value, isInvalid, errors, cla
 				<SelectPrimitive.Trigger
 					data-slot="select-trigger"
 					className={cn(
-						"peer border-input data-placeholder:text-muted-foreground flex h-12.5 w-full cursor-pointer items-center justify-between gap-2 rounded-md border bg-transparent py-2 pr-9 pl-3 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none",
+						"peer border-input data-placeholder:text-muted-foreground flex h-12.5 w-full cursor-pointer items-center justify-between gap-2 rounded-md border bg-transparent py-2 pr-9 pl-3 text-sm whitespace-nowrap capitalize shadow-xs transition-[color,box-shadow] outline-none",
 						value && "pt-5 pb-2",
 						"disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
 						"focus-visible:border-ring focus-visible:ring-ring/70 focus-visible:ring-1",

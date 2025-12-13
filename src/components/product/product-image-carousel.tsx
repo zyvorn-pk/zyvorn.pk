@@ -26,15 +26,16 @@ export function ProductImageCarousel({ images, title, stock }: { images: string[
 							key={index}
 							className={cn("overflow-hidden p-0", index === 0 && "rounded-l-lg", index === images.length - 1 && "rounded-r-lg")}
 						>
-							<ProductImage
-								src={src}
-								size={600}
-								alt={title}
-								transformation="default"
-								className="rounded-none border-none"
-								loading={index === 0 ? "eager" : "lazy"}
-								priority={index === 0}
-							/>
+							<div className="bg-muted shrink-0 overflow-hidden">
+								<ProductImage
+									src={src}
+									size={600}
+									alt={title}
+									transformation="default"
+									loading={index === 0 ? "eager" : "lazy"}
+									priority={index === 0}
+								/>
+							</div>
 						</CarouselItem>
 					))}
 				</CarouselContent>

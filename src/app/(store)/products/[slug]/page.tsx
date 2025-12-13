@@ -55,7 +55,7 @@ export default async function StoreProductPage({ params }: PageProps<"/products/
 								</tbody>
 							</table>
 						</div>
-						<ProductButtons stock={product.stock} />
+						<ProductButtons productId={product.id} stock={product.stock} />
 					</div>
 				</div>
 			</section>

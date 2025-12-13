@@ -19,7 +19,9 @@ export const dashboardProductsColumn: ColumnDef<Omit<Product, "costPrice">>[] = 
 		header: "Title",
 		cell: ({ row }) => (
 			<div className="flex items-center gap-2">
-				<ProductImage src={row.original.images[0]} alt={row.original.title} size={60} className="size-15" transformation="thumbnail" />
+				<div className="bg-muted size-15 shrink-0 overflow-hidden rounded-md">
+					<ProductImage src={row.original.images[0]} alt={row.original.title} size={60} transformation="thumbnail" />
+				</div>
 				<p className="line-clamp-2 max-w-65 font-medium text-pretty">{row.original.title}</p>
 			</div>
 		)
