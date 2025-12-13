@@ -37,7 +37,7 @@ export const dashboardRoutes = [
 	},
 	{
 		route: "/dashboard/orders/orderId",
-		routeTitle: "Order Id",
+		routeTitle: "Order Details",
 		routeList: [
 			{ name: "Dashboard", url: "/dashboard" },
 			{ name: "Orders", url: "/dashboard/orders" }

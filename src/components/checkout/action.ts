@@ -2,6 +2,8 @@
 
 import "server-only";
 
+import { updateTag } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect, unstable_rethrow as rethrow } from "next/navigation";
 
 import { getSession } from "@/lib/auth/server";
@@ -49,6 +51,11 @@ export async function checkoutAction(data: CheckoutSchema, cartId: string) {
 		await db.cart.delete({
 			where: { id: cartId }
 		});
+
+		const cookieStore = await cookies();
+		cookieStore.delete("cartId");
+
+		updateTag("orders");
 
 		return { error: null };
 	} catch (error) {

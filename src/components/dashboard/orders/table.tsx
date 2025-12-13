@@ -1,17 +1,16 @@
 "use client";
 
 import { flexRender, getCoreRowModel, getFilteredRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
-import { PlusIcon } from "lucide-react";
 
-import { LinkButton } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-interface DashboardCategoriesTableProps<TData, TValue> {
+interface DashboardOrdersTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 }
 
-export function DashboardProductsTable<TData, TValue>({ data, columns }: DashboardCategoriesTableProps<TData, TValue>) {
+export function DashboardOrdersTable<TData, TValue>({ data, columns }: DashboardOrdersTableProps<TData, TValue>) {
 	const table = useReactTable({
 		data,
 		columns,
@@ -21,18 +20,12 @@ export function DashboardProductsTable<TData, TValue>({ data, columns }: Dashboa
 
 	return (
 		<>
-			<div className="grid gap-4 md:grid-cols-3">
-				<h1 className="text-xl/9 font-semibold">Products</h1>
-				<div className="flex items-center gap-4 md:col-span-2 md:justify-end">
-					<LinkButton href="/dashboard/products/new" prefetch>
-						<PlusIcon />
-						New Product
-					</LinkButton>
-				</div>
+			<div className="flex items-center justify-between gap-4">
+				<h1 className="text-xl font-semibold">Orders</h1>
 			</div>
 			<div className="overflow-hidden rounded-md border">
 				<Table>
-					<TableHeader className="bg-muted/70">
+					<TableHeader className="bg-muted/50">
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
@@ -56,7 +49,7 @@ export function DashboardProductsTable<TData, TValue>({ data, columns }: Dashboa
 							))
 						) : (
 							<TableRow>
-								<TableCell colSpan={table.getAllColumns().length} className="h-24 text-center">
+								<TableCell colSpan={columns.length} className="h-24 text-center">
 									No results.
 								</TableCell>
 							</TableRow>

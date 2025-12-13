@@ -23,7 +23,7 @@ export function FloatingLabelSelect({ placeholder, value, isInvalid, errors, cla
 					className={cn(
 						"peer border-input data-placeholder:text-muted-foreground flex h-12.5 w-full cursor-pointer items-center justify-between gap-2 rounded-md border bg-transparent py-2 pr-9 pl-3 text-sm whitespace-nowrap capitalize shadow-xs transition-[color,box-shadow] outline-none",
 						value && "pt-5 pb-2",
-						"disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+						"disabled:bg-muted disabled:pointer-events-none",
 						"focus-visible:border-ring focus-visible:ring-ring/70 focus-visible:ring-1",
 						"aria-invalid:ring-destructive/70 aria-invalid:border-destructive aria-invalid:ring-1",
 						"[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",

@@ -4,7 +4,6 @@ import { flexRender, getCoreRowModel, getFilteredRowModel, useReactTable, type C
 import { PlusIcon } from "lucide-react";
 
 import { LinkButton } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface DashboardCategoriesTableProps<TData, TValue> {
@@ -25,12 +24,6 @@ export function DashboardCategoriesTable<TData, TValue>({ data, columns }: Dashb
 			<div className="grid gap-4 md:grid-cols-3">
 				<h1 className="text-xl/9 font-semibold">Categories</h1>
 				<div className="flex items-center gap-4 md:col-span-2 md:justify-end">
-					<Input
-						className="w-full max-w-sm"
-						placeholder="Search categories..."
-						value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-						onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)}
-					/>
 					<LinkButton href="/dashboard/categories/new" prefetch>
 						<PlusIcon />
 						New Category

@@ -15,14 +15,14 @@ import { deleteProductAction } from "./action";
 
 export const dashboardProductsColumn: ColumnDef<Omit<Product, "costPrice">>[] = [
 	{
-		id: "title",
-		header: "Title",
+		id: "product",
+		header: "Product",
 		cell: ({ row }) => (
 			<div className="flex items-center gap-2">
 				<div className="bg-muted size-15 shrink-0 overflow-hidden rounded-md">
 					<ProductImage src={row.original.images[0]} alt={row.original.title} size={60} transformation="thumbnail" />
 				</div>
-				<p className="line-clamp-2 max-w-65 font-medium text-pretty">{row.original.title}</p>
+				<p className="line-clamp-2 max-w-60 font-medium text-pretty">{row.original.title}</p>
 			</div>
 		)
 	},

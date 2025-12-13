@@ -20,7 +20,7 @@ export function FloatingLabelInput({ className, placeholder, isInvalid, errors, 
 				className={cn(
 					"peer border-input h-12.5 w-full min-w-0 rounded-md border bg-transparent px-3 pt-5 pb-2 text-sm shadow-xs transition-all duration-300 outline-none",
 					"placeholder:text-muted-foreground placeholder-shown:py-3.5",
-					"disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+					"disabled:bg-muted disabled:pointer-events-none",
 					"focus-visible:border-ring focus-visible:ring-ring/70 focus-visible:ring-1",
 					"aria-invalid:ring-destructive/70 aria-invalid:border-destructive aria-invalid:ring-1",
 					"selection:bg-primary selection:text-primary-foreground"

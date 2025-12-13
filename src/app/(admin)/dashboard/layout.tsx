@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: LayoutProps<"/dashboard">) {
 				<DashboardSidebar />
 				<SidebarInset>
 					<DashboardHeader />
-					<div className="flex flex-1 flex-col gap-4 p-4">
+					<div className="flex flex-1 flex-col gap-4 p-4 pb-20">
 						<Suspense fallback={<Spinner className="mx-auto mt-5 md:size-5.5" />}>{children}</Suspense>
 					</div>
 				</SidebarInset>
