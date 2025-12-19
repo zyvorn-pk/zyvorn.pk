@@ -63,7 +63,14 @@ function CartSheetContent({ data, status, totalAmount, count, cartId }: ReturnTy
 						<TriangleAlertIcon />
 					</EmptyMedia>
 					<EmptyDescription>Something went wrong, Please try again!</EmptyDescription>
-					<Button size="sm" className="rounded-full" onClick={() => window.location.reload()}>
+					<Button
+						size="sm"
+						className="rounded-full"
+						onClick={() => {
+							setOpen(false);
+							window.location.reload();
+						}}
+					>
 						Retry
 					</Button>
 				</EmptyContent>
@@ -97,7 +104,14 @@ function CartSheetContent({ data, status, totalAmount, count, cartId }: ReturnTy
 						<ShoppingCartIcon />
 					</EmptyMedia>
 					<EmptyTitle>Your cart is empty</EmptyTitle>
-					<Button size="sm" className="rounded-full" onClick={() => router.push("/collections/all")}>
+					<Button
+						size="sm"
+						className="rounded-full"
+						onClick={() => {
+							setOpen(false);
+							router.push("/collections/all");
+						}}
+					>
 						Go to Shop
 					</Button>
 				</EmptyContent>
@@ -111,14 +125,20 @@ function CartSheetContent({ data, status, totalAmount, count, cartId }: ReturnTy
 				{data.map((item) => (
 					<Item key={item.id} variant="default" className="gap-3 p-0">
 						<ItemMedia className="relative">
-							<Link href={`/products/${item.slug}`} className="bg-muted relative size-20 shrink-0 overflow-hidden rounded-md">
+							<Link
+								href={`/products/${item.slug}`}
+								className="bg-muted relative size-20 shrink-0 overflow-hidden rounded-md"
+								onClick={() => setOpen(false)}
+							>
 								<ProductImage src={item.image} alt={item.title} size={80} transformation="thumbnail" />
 							</Link>
 							<Badge variant="left">{item.quantity}</Badge>
 						</ItemMedia>
 						<ItemContent>
 							<ItemTitle className="line-clamp-1">
-								<Link href={`/products/${item.slug}`}>{item.title}</Link>
+								<Link href={`/products/${item.slug}`} onClick={() => setOpen(false)}>
+									{item.title}
+								</Link>
 							</ItemTitle>
 							<ItemDescription>Rs&nbsp;{formatPrice(item.price)}</ItemDescription>
 							<Button variant="ghost" size="icon-sm" onClick={() => mutate({ productId: item.id })}>

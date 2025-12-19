@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import type { COUNTRY, PAYMENT_METHOD, PROVINCE } from "@/lib/prisma/client";
@@ -25,6 +26,8 @@ interface CheckoutFormProps extends React.ComponentProps<"form"> {
 }
 
 export function CheckoutForm({ className, cartId, defaultValues, provinces, children, ...props }: CheckoutFormProps) {
+	const queryClient = useQueryClient();
+
 	const [isSucceed, setIsSucceed] = useState(false);
 	const [isPending, startTransition] = useTransition();
 
@@ -39,6 +42,7 @@ export function CheckoutForm({ className, cartId, defaultValues, provinces, chil
 					return;
 				}
 				setIsSucceed(true);
+				queryClient.refetchQueries({ queryKey: ["cart"] });
 			});
 		}
 	});
